@@ -2,22 +2,15 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { FETCH_REQUEST } from '../actions/fetcher';
 import rootReducer from '../reducers';
-import Fetcher from '../middlewares/Fetcher';
-
-const fetcher = Fetcher({
-  uri: process.env.BACKEND,
-  isFetcherAction: type => type === FETCH_REQUEST,
-  port: process.env.BACKEND_PORT,
-});
+import configureFetcher from './configureFetcher';
 
 const configureStore = (preloadedState) => {
   const store = createStore(
     rootReducer,
     preloadedState,
     composeWithDevTools(
-      applyMiddleware(fetcher, thunk, createLogger()),
+      applyMiddleware(configureFetcher(), thunk, createLogger()),
     ),
   );
 
