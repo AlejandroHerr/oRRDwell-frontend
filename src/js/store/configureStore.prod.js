@@ -4,11 +4,10 @@ import { FETCH_REQUEST } from '../actions/fetcher';
 import rootReducer from '../reducers';
 import Fetcher from '../middlewares/Fetcher';
 
-
 const fetcher = Fetcher({
-  uri: 'http://junkyisland',
+  uri: process.env.BACKEND,
   isFetcherAction: type => type === FETCH_REQUEST,
-  port: 8080,
+  port: process.env.BACKEND_PORT,
 });
 
 export default preloadedState =>

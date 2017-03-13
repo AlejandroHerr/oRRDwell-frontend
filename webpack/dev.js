@@ -37,13 +37,6 @@ module.exports = webpackMerge(baseConfig,
       ],
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-          BACKEND: JSON.stringify(process.env.BACKEND),
-          BACKEND_PORT: JSON.stringify(process.env.BACKEND_PORT),
-        },
-      }),
       new DashboardPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),

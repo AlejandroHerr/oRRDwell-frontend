@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { FETCH_REQUEST } from '../actions/fetcher';
 import rootReducer from '../reducers';
 import Fetcher from '../middlewares/Fetcher';
-console.log(process.env, process.env.NODE_ENV, process.env.BACKEND, process.env.BACKEND_PORT);
+
 const fetcher = Fetcher({
   uri: process.env.BACKEND,
   isFetcherAction: type => type === FETCH_REQUEST,
