@@ -1,7 +1,17 @@
 import fetch from 'isomorphic-fetch';
 import { List } from 'immutable';
 
-const urlBuilder = (uri, port, path = []) => `${uri}:${port}/fetch/${path}`;
+/*
+  This fuction has to be rebuilt for better building.
+ */
+const urlBuilder = (uri, port, path = []) => {
+  if (port) {
+    return `${uri}:${port}/fetch/${path}`;
+  }
+
+  return `${uri}/fetch/${path}`;
+};
+
 
 const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
@@ -13,7 +23,7 @@ const checkStatus = (response) => {
   throw error;
 };
 
-export default ({ uri, isFetcherAction, port = 8080 }) => ({ dispatch }) => next => (action) => {
+export default ({ uri, isFetcherAction, port }) => ({ dispatch }) => next => (action) => {
   const { payload, type, meta } = action;
 
   if (!isFetcherAction(type)) {
