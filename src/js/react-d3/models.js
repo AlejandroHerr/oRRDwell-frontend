@@ -43,7 +43,7 @@ export const ChartView = new Record({
   axisX: new AxisView(),
   probes: null, // This field is mandatory.
   shape: 'line',
-  source: null, // This field is mandatory.
+  module: null, // This field is mandatory.
   stacked: false,
   low: null,
   high: null,
