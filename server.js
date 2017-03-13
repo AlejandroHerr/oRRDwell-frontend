@@ -9,6 +9,9 @@ new WebpackDevServer(webpack(config), {
   stats: {
     colors: true,
   },
+  watchOptions: {
+    poll: 2000,
+  },
 }).listen(3000, 'localhost', (err, result) => {
   if (err) {
     return console.log(err);
