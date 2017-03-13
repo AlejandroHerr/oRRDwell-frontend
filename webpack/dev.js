@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const baseConfig = require('./base.js');
+const path = require('path');
 
 module.exports = webpackMerge(baseConfig,
   {
@@ -9,9 +10,10 @@ module.exports = webpackMerge(baseConfig,
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server',
-      './src/index.js',
+      path.resolve(__dirname, '../', 'src', 'index.js'),
 
     ],
+    devtool: 'source-map',
     module: {
       rules: [
         {
