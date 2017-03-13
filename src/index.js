@@ -6,7 +6,6 @@ import { render } from 'react-dom';
 import Root from './js/Root';
 import configureStore from './js/store/configureStore';
 
-require('es6-promise').polyfill();
 
 const store = configureStore();
 
