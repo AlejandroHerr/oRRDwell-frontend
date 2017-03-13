@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production webpack -p --config webpack",
     "deploy": "gh-pages -d build",
     "build:gh-pages": "cross-env BACKEND=\"https://alejandroherr.github.io/oRRDwell-frontend\" npm run build",
-    "fetch-data": "./fetch_all",
+    "fetch-data": "./fetch_all.sh",
     "gh-pages": "npm run build:gh-pages && npm run fetch-data && npm run deploy"
   },
   "author": "",
