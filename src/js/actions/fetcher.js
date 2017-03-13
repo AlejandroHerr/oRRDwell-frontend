@@ -1,47 +1,31 @@
 import { createAction, createActions } from 'redux-actions';
-import { List } from 'immutable';
 
-export const FETCH_REQUEST = 'FETCH_REQUEST';
-export const FETCH_SUCCESS = 'FETCH_SUCCESS';
-export const FETCH_MANY_SUCCESS = 'FETCH_MANY_SUCCESS';
-export const FETCH_VIEWS_SUCCESS = 'FETCH_VIEWS_SUCCESS';
-export const FETCH_ERROR = 'FETCH_ERROR';
+export const RRD_FETCH_REQUEST = 'RRD_FETCH_REQUEST';
+export const RRD_FETCH_SUCCESS = 'RRD_FETCH_SUCCESS';
+export const RRD_FETCH_ERROR = 'RRD_FETCH_ERROR';
+export const VIEWS_FETCH_REQUEST = 'VIEWS_FETCH_REQUEST';
+export const VIEWS_FETCH_SUCCESS = 'VIEWS_FETCH_SUCCESS';
+export const VIEWS_FETCH_ERROR = 'VIEWS_FETCH_ERROR';
 
 const {
-  fetchSuccess,
-  fetchManySuccess,
-  fetchViewsSuccess,
-  fetchError,
+  rrdFetchSuccess,
+  rrdFetchError,
+  viewsFetchSuccess,
+  viewsFetchError,
 } = createActions({
-  [FETCH_SUCCESS]: (data, { view, canvas }) => ({ data, view, canvas }),
-  [FETCH_MANY_SUCCESS]: (data, { view, canvas }, idx) => ({ data, view, canvas, idx }),
-}, FETCH_VIEWS_SUCCESS, FETCH_ERROR);
+  [RRD_FETCH_SUCCESS]: (data, { view, canvas }) => ({ data, view, canvas }),
+}, RRD_FETCH_ERROR, VIEWS_FETCH_SUCCESS, VIEWS_FETCH_ERROR);
 
-export const fetchRequest = createAction(
-  FETCH_REQUEST,
-  (path, payload) => ({ path, ...payload }),
-  () => ([fetchSuccess, fetchError]));
+const rrdFetchRequest = createAction(
+  RRD_FETCH_REQUEST,
+  (view, path, canvas) => ({ view, path, canvas }),
+  () => ([rrdFetchSuccess, rrdFetchError]));
 
-export const fetchManyRequest = createAction(
-  FETCH_REQUEST,
-  (path, payload) => ({ path, ...payload }),
-  () => ([fetchManySuccess, fetchError]));
+export const rrdFetchAction = (view, modules, canvas) =>
+  dispatch => dispatch(rrdFetchRequest(view, modules, canvas));
 
-export const fetchAction = (view, canvas) => (dispatch, getState) => {
-  const charts = getState().views.views.get(view).charts;
-
-  if (List.isList(charts) === false) {
-    return dispatch(fetchRequest(charts.source.module, canvas));
-  }
-  if (charts.size === 1) {
-    return dispatch(fetchRequest(charts.get(0).source.module, { view, canvas }));
-  }
-
-  return dispatch(fetchManyRequest(charts.map(chart => chart.source.module), { view, canvas }));
-};
-
-export const fetchViewsAction = createAction(
-  FETCH_REQUEST,
+export const viewsFetchAction = createAction(
+  VIEWS_FETCH_REQUEST,
   () => ({ path: 'views' }),
-  () => ([fetchViewsSuccess, fetchError]),
+  () => ([viewsFetchSuccess, viewsFetchError]),
 );

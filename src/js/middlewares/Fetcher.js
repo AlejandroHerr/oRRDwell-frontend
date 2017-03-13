@@ -1,8 +1,7 @@
 import fetch from 'isomorphic-fetch';
-import { List } from 'immutable';
 
 /*
-  This fuction has to be rebuilt for better building.
+  This fuction has to be rewriten for better building.
  */
 const urlBuilder = (uri, port, path = []) => {
   if (port) {
@@ -13,14 +12,14 @@ const urlBuilder = (uri, port, path = []) => {
 };
 
 
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+const checkStatus = (res) => {
+  if (res.status >= 200 && res.status < 300) {
+    return res;
   }
-  const error = new Error(response.statusText);
-  error.response = response;
+  const err = new Error(`${res.status} - ${res.statusText}`);
+  err.res = res;
 
-  throw error;
+  throw err;
 };
 
 export default ({ uri, isFetcherAction, port }) => ({ dispatch }) => next => (action) => {
@@ -34,24 +33,26 @@ export default ({ uri, isFetcherAction, port }) => ({ dispatch }) => next => (ac
    */
   const [REQUEST_SUCCESS, REQUEST_FAIL] = meta;
 
+  if (Array.isArray(payload.path)) {
+    const fetches = payload.path.map(path => fetch(urlBuilder(uri, port, path))
+      .then(checkStatus)
+      .then(res => res.json()));
 
-  if (List.isList(payload.path)) {
-    payload.path.forEach((fetchPath, idx) => {
-      const url = urlBuilder(uri, port, fetchPath);
-      fetch(url)
-        .then(checkStatus)
-        .then(response => response.json())
-        .then(data => dispatch(REQUEST_SUCCESS(data, payload, idx)))
-        .catch(error => dispatch(REQUEST_FAIL(error)));
-    });
+    Promise.all(fetches)
+      .then(results => dispatch(REQUEST_SUCCESS(results.map((res, idx) => ({
+        path: payload.path[idx],
+        ...res,
+      })), payload)))
+      .catch(err => dispatch(REQUEST_FAIL(err)));
+
     return next(action);
   }
   const url = urlBuilder(uri, port, payload.path);
 
   fetch(url)
     .then(checkStatus)
-    .then(response => response.json())
-    .then(data => dispatch(REQUEST_SUCCESS(data, payload)))
+    .then(res => res.json())
+    .then(res => dispatch(REQUEST_SUCCESS(res, payload)))
     .catch(error => dispatch(REQUEST_FAIL(error)));
 
   return next(action);
