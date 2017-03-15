@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import App from './containers/App';
+import DemoApp from './containers/DemoApp';
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <App />
+    <DemoApp />
   </Provider>
 );
+
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
