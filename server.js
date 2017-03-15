@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack/index.js');
+const config = require('./webpack');
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -10,7 +10,7 @@ new WebpackDevServer(webpack(config), {
     colors: true,
   },
   watchOptions: {
-    poll: 2000,
+//    poll: 2000,
   },
 }).listen(3000, 'localhost', (err, result) => {
   if (err) {
