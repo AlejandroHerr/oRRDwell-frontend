@@ -11,9 +11,8 @@ module.exports = webpackMerge(baseConfig,
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server',
       path.resolve(__dirname, '../', 'src', 'index.js'),
-
     ],
-    devtool: 'source-map',
+    devtool: 'cheap-module-eval-source-map',
     module: {
       rules: [
         {
