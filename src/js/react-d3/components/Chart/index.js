@@ -1,36 +1,49 @@
 import React, { PropTypes, PureComponent } from 'react';
 import CSSModules from 'react-css-modules';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 import { ChartRecord, ChartView, GeometryRecord } from '../../models';
-import { selectScale, selectTimeScale } from '../../reducers';
+import { createYScale, createXScale } from '../../reducers';
 import Axis from './Axis';
 import Dataset from './Dataset';
 import StackedDataset from './Dataset/StackedDataset';
 import styles from '../style.css';
 
 class Chart extends PureComponent {
+  componentWillMount() {
+    const { chart, geometry, view } = this.props;
+
+    this.scaleX = createXScale(geometry, chart);
+    this.scaleY = createYScale(geometry, chart, view);
+  }
+  componentWillUpdate(nextProps) {
+    const { chart, geometry } = this.props;
+    const { chart: nextChart, geometry: nextGeometry, view: nextView } = nextProps;
+
+    if (!shallowEqual(geometry, nextGeometry) || !shallowEqual(chart, nextChart)) {
+      this.scaleX = createXScale(nextGeometry, nextChart);
+      this.scaleY = createYScale(nextGeometry, nextChart, nextView);
+    }
+  }
   render() {
     const {
       canvas,
       chart,
       geometry,
-      idx,
       mouseOut,
       mouseOver,
       selected,
       view,
     } = this.props;
-
-
-    const scaleX = selectTimeScale(geometry, chart.start, chart.end, canvas);
-    const scaleY = selectScale(geometry, chart, view, canvas, idx);
+    const { scaleX, scaleY } = this;
 
     const DataSet = view.stacked ? StackedDataset : Dataset;
+
     return (
       <g transform={`translate(${geometry.marginLeft},${geometry.marginTop})`}>
         <DataSet
           canvas={canvas}
-          data={chart.data}
-          idx={idx}
+          chartId={chart.id}
+          dataset={chart.dataset}
           mouseOut={mouseOut}
           mouseOver={mouseOver}
           scaleX={scaleX}
@@ -72,7 +85,6 @@ Chart.propTypes = {
   canvas: PropTypes.string.isRequired,
   chart: PropTypes.instanceOf(ChartRecord).isRequired,
   geometry: PropTypes.instanceOf(GeometryRecord).isRequired,
-  idx: PropTypes.number.isRequired,
   mouseOut: PropTypes.func,
   mouseOver: PropTypes.func,
   selected: PropTypes.string,

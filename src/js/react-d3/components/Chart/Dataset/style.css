@@ -40,128 +40,128 @@
 }
 .line--width-one {
   stroke-width: 1;
-  &.selected {
+  &:hover, &.selected {
     stroke-width: 2;
   }
 }
 .line--width-two {
   stroke-width: 2;
-  &.selected {
+  &:hover, &.selected {
     stroke-width: 3;
   }
 }
 .line--width-three {
   stroke-width: 3;
-  &.selected {
+  &:hover, &.selected {
     stroke-width: 4;
   }
 }
 .line--width-four {
   stroke-width: 4;
-  &.selected {
+  &:hover, &.selected {
     stroke-width: 5;
   }
 }
 .line--width-five {
   stroke-width: 5;
-  &.selected {
+  &:hover, &.selected {
     stroke-width: 6;
   }
 }
 
 .line--color-base00 {
   stroke: var(--base00);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base00) lightness(-10%));
   }
 }
 .line--color-base01 {
   stroke: var(--base01);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base01) lightness(-10%));
   }
 }
 .line--color-base02 {
   stroke: var(--base02);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base02) lightness(-10%));
   }
 }
 .line--color-base03 {
   stroke: var(--base03);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base03) lightness(-10%));
   }
 }
 .line--color-base04 {
   stroke: var(--base04);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base04) lightness(-10%));
   }
 }
 .line--color-base05 {
   stroke: var(--base05);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base05) lightness(-10%));
   }
 }
 .line--color-base06 {
   stroke: var(--base06);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base06) lightness(-10%));
   }
 }
 .line--color-base07 {
   stroke: var(--base07);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base07) lightness(-10%));
   }
 }
 .line--color-base08 {
   stroke: var(--base08);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base08) lightness(-10%));
   }
 }
 .line--color-base09 {
   stroke: var(--base09);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base09) lightness(-10%));
   }
 }
 .line--color-base0A {
   stroke: var(--base0A);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0A) lightness(-10%));
   }
 }
 .line--color-base0B {
   stroke: var(--base0B);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0B) lightness(-10%));
   }
 }
 .line--color-base0C {
   stroke: var(--base0C);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0C) lightness(-10%));
   }
 }
 .line--color-base0D {
   stroke: var(--base0D);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0D) lightness(-10%));
   }
 }
 .line--color-base0E {
   stroke: var(--base0E);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0E) lightness(-10%));
   }
 }
 .line--color-base0F {
   stroke: var(--base0F);
-  &.selected {
+  &:hover, &.selected {
     stroke: color(var(--base0F) lightness(-10%));
   }
 }
@@ -176,97 +176,97 @@
 }
 .area--color-base00 {
   fill: var(--base00);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base00) lightness(-5%));
   }
 }
 .area--color-base01 {
   fill: var(--base01);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base01) lightness(-5%));
   }
 }
 .area--color-base02 {
   fill: var(--base02);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base02) lightness(-5%));
   }
 }
 .area--color-base03 {
   fill: var(--base03);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base03) lightness(-5%));
   }
 }
 .area--color-base04 {
   fill: var(--base04);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base04) lightness(-5%));
   }
 }
 .area--color-base05 {
   fill: var(--base05);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base05) lightness(-5%));
   }
 }
 .area--color-base06 {
   fill: var(--base06);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base06) lightness(-5%));
   }
 }
 .area--color-base07 {
   fill: var(--base07);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base07) lightness(-5%));
   }
 }
 .area--color-base08 {
   fill: var(--base08);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base08) lightness(-5%));
   }
 }
 .area--color-base09 {
   fill: var(--base09);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base09) lightness(-5%));
   }
 }
 .area--color-base0A {
   fill: var(--base0A);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0A) lightness(-5%));
   }
 }
 .area--color-base0B {
   fill: var(--base0B);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0B) lightness(-5%));
   }
 }
 .area--color-base0C {
   fill: var(--base0C);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0C) lightness(-5%));
   }
 }
 .area--color-base0D {
   fill: var(--base0D);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0D) lightness(-5%));
   }
 }
 .area--color-base0E {
   fill: var(--base0E);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0E) lightness(-5%));
   }
 }
 .area--color-base0F {
   fill: var(--base0F);
-  &.selected {
+  &:hover, &.selected {
     fill: color(var(--base0F) lightness(-5%));
   }
 }

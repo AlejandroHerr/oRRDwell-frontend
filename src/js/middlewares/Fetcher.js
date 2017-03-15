@@ -39,11 +39,11 @@ export default ({ uri, isFetcherAction, port }) => ({ dispatch }) => next => (ac
       .then(res => res.json()));
 
     Promise.all(fetches)
+      .catch(err => dispatch(REQUEST_FAIL(err)))
       .then(results => dispatch(REQUEST_SUCCESS(results.map((res, idx) => ({
         path: payload.path[idx],
         ...res,
-      })), payload)))
-      .catch(err => dispatch(REQUEST_FAIL(err)));
+      })), payload)));
 
     return next(action);
   }

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Legend from './Legend';
 import LegendHeader from './LegendHeader';
 import styles from '../style.css';
+import { View } from '../../models';
 
 class LegendGroup extends PureComponent {
   render() {
@@ -19,15 +20,15 @@ class LegendGroup extends PureComponent {
               'col-6': charts.size > 1,
               px1: charts.size > 1,
             })}
-            key={`legendcol_${canvas}_${idx}`}
+            key={`legendcol_${canvas}_${chart.id}`}
           >
-            <LegendHeader key={`legendheader_${canvas}_${idx}`} />
+            <LegendHeader key={`legendheader_${canvas}_${chart.id}`} />
             <Legend
               canvas={canvas}
               chart={chart}
-              chartView={view.get(idx)}
+              chartView={view.charts.get(idx)}
               idx={idx}
-              key={`legend_${canvas}_${idx}`}
+              key={`legend_${canvas}_${chart.id}`}
               mouseOut={mouseOut}
               mouseOver={mouseOver}
               styles={styles}
@@ -48,7 +49,7 @@ LegendGroup.propTypes = {
   charts: ImmutablePropTypes.list.isRequired,
   mouseOut: PropTypes.func,
   mouseOver: PropTypes.func,
-  view: ImmutablePropTypes.list.isRequired,
+  view: PropTypes.instanceOf(View).isRequired,
 };
 
 export default CSSModules(LegendGroup, styles, { errorWhenNotFound: false });

@@ -1,26 +1,18 @@
 import { area, line } from 'd3';
 import Dataset from './';
-import { selectStack } from '../../../reducers';
 
 class StackedDataset extends Dataset {
-  getDataSet() {
-    const { canvas, data, idx } = this.props;
-
-    return selectStack(data, canvas, idx);
-  }
   getShaper() {
-    const { data, scaleX, scaleY, view: { shape } } = this.props;
-
-    const time = data.first().values;
+    const { scaleX, scaleY, view: { shape } } = this.props;
 
     return shape === 'line' ?
-      line().x((v, i) => scaleX(1000 * time.get(i)[0]))
-        .y(v => scaleY(v[1]))
-        .defined(v => v[1]) :
-      area().x((v, i) => scaleX(1000 * time.get(i)[0]))
-        .y1(v => scaleY(v[1]))
-        .y0(v => scaleY(v[0]))
-        .defined(v => v[1]);
+      line().x(v => scaleX(1000 * v[0]))
+        .y(v => scaleY(v[2]))
+        .defined(v => v[1] || v[2]) :
+      area().x(v => scaleX(1000 * v[0]))
+        .y1(v => scaleY(v[2]))
+        .y0(v => scaleY(v[1]))
+        .defined(v => v[1] || v[2]);
   }
 }
 

@@ -1,13 +1,10 @@
 import React, { PropTypes } from 'react';
-import { ChartView, DataSource } from '../../models';
+import { ShapeRecord, DataRecord } from '../../models';
 
 const LegendRow = ({
-  avg,
   chartView,
   dataSource,
   formatter,
-  max,
-  min,
   styles,
   onMouseOut,
   onMouseOver }) => (
@@ -19,7 +16,7 @@ const LegendRow = ({
       <div className="col col-4">
         <svg height={10} width={10} >
           <rect
-            className={styles[`area--color-${chartView.probes.get(dataSource.id).color}`]}
+            className={styles[`area--color-${chartView.color}`]}
             height="10"
             width="10"
             x="0"
@@ -28,12 +25,12 @@ const LegendRow = ({
         </svg>
         {` ${dataSource.id}`}</div>
       <div className="col col-2 right-align">
-        {formatter(dataSource.values.last()[1] ||
-          dataSource.values.get(dataSource.values.size - 2)[1])}
+        {formatter(dataSource.data[dataSource.data.length - 1][1] ||
+          dataSource.data[dataSource.data.length - 2][1])}
       </div>
-      <div className="col col-2 right-align">{formatter(min)}</div>
-      <div className="col col-2 right-align">{formatter(avg)}</div>
-      <div className="col col-2 right-align">{formatter(max)}</div>
+      <div className="col col-2 right-align">{formatter(dataSource.min[1])}</div>
+      <div className="col col-2 right-align">{formatter(dataSource.avg)}</div>
+      <div className="col col-2 right-align">{formatter(dataSource.max[1])}</div>
     </div>);
 
 LegendRow.defaultProps = {
@@ -42,12 +39,9 @@ LegendRow.defaultProps = {
 };
 
 LegendRow.propTypes = {
-  avg: PropTypes.number.isRequired,
-  chartView: PropTypes.instanceOf(ChartView).isRequired,
-  dataSource: PropTypes.instanceOf(DataSource).isRequired,
+  chartView: PropTypes.instanceOf(ShapeRecord).isRequired,
+  dataSource: PropTypes.instanceOf(DataRecord).isRequired,
   formatter: PropTypes.func.isRequired,
-  max: PropTypes.number.isRequired,
-  min: PropTypes.number.isRequired,
   styles: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
   onMouseOut: PropTypes.func,
   onMouseOver: PropTypes.func,

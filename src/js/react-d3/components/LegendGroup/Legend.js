@@ -8,25 +8,19 @@ class Legend extends PureComponent {
   render() {
     const { canvas, chart, chartView, idx, mouseOut, mouseOver, styles } = this.props;
 
-    const maxs = selectMaxs(chart, canvas, idx).rel;
-    const mins = selectMins(chart, canvas, idx).rel;
-    const avg = selectAverage(chart, canvas, idx).rel;
     const fmt = format[chartView.axisY.unit];
-
+    console.log(chart, chartView);
     return (
       <div>
-        {chart.data.map((dataSource, key) => (
+        {chart.dataset.map((dataSource, key) => (
           <LegendRow
-            avg={avg.get(key)}
-            chartView={chartView}
+            chartView={chartView.probes.get(key)}
             dataSource={dataSource}
             formatter={fmt}
-            key={`legendrow_${canvas}_${idx}_${dataSource.id}`}
-            max={maxs.get(key)[1] || 0}
-            min={mins.get(key)[1] || 0}
+            key={`legendrow_${canvas}_${chart.id}_${dataSource.id}`}
             styles={styles}
-            onMouseOut={mouseOut ? () => mouseOut(canvas, idx, dataSource.id) : null}
-            onMouseOver={mouseOver ? () => mouseOver(canvas, idx, dataSource.id) : null}
+            onMouseOut={mouseOut ? () => mouseOut(canvas, chart.id, dataSource.id) : null}
+            onMouseOver={mouseOver ? () => mouseOver(canvas, chart.id, dataSource.id) : null}
           />),
         )}
       </div>);

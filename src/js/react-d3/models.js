@@ -1,14 +1,20 @@
 import { Record } from 'immutable';
 
-export const DataSource = new Record({
+export const DataRecord = new Record({
   id: null, // This field is mandatory.
-  values: null,  //This field is mandatory.
+  data: null,  // This field is mandatory.
+  max: null,
+  min: null,
+  avg: null,
 });
 export const ChartRecord = new Record({
-  data: null, // This field is mandatory.
+  id: null,
+  dataset: null, // This field is mandatory.
   end: 60,
   start: 0,
   step: 0,
+  max: null,
+  min: null,
 });
 export const GeometryRecord = new Record({
   height: 500,
@@ -19,6 +25,7 @@ export const GeometryRecord = new Record({
   marginLeft: 0,
 });
 export const ShapeRecord = new Record({
+  id: null,
   color: 'base0A',
   opacity: 'ten',
   dasharray: 'none',

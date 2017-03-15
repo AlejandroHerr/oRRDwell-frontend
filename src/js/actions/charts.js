@@ -1,14 +1,12 @@
-import { createAction, createActions } from 'redux-actions';
-import { List } from 'immutable';
+import { createActions } from 'redux-actions';
 
-export const CHART_OVER = 'CHART_OVER';
-export const CHART_OUT = 'CHART_OUT';
+export const SHAPE_SELECTED = 'SHAPE_SELECTED';
+export const SHAPE_UNSELECTED = 'SHAPE_UNSELECTED';
 
 export const {
-  chartOver,
-  chartOut,
+  shapeSelected: selectShape,
+  shapeUnselected: unselectShape,
 } = createActions({
-  [CHART_OVER]: (canvas, idx, id) => ({ canvas, idx, id }),
-  [CHART_OUT]: canvas => ({ canvas }),
+  [SHAPE_SELECTED]: (canvas, chart, set) => ({ canvas, chart, set }),
+  [SHAPE_UNSELECTED]: (canvas, chart) => ({ canvas, chart }),
 });
-

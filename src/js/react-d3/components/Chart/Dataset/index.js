@@ -4,10 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { ChartView } from '../../../models';
 import Path from './Path';
 
-class LineChart extends React.PureComponent {
-  getDataSet() {
-    return this.props.data;
-  }
+class Dataset extends React.PureComponent {
   getShaper() {
     const { scaleX, scaleY, view: { shape } } = this.props;
     return shape === 'line' ?
@@ -22,45 +19,46 @@ class LineChart extends React.PureComponent {
   render() {
     const {
       canvas,
-      idx,
+      chartId,
+      dataset,
       mouseOut,
       mouseOver,
       selected,
       styles,
-      view,
+      view: {
+        probes,
+        shape,
+      },
     } = this.props;
-
-    const shaper = this.getShaper();
-    const dataSet = this.getDataSet();
 
     return (
       <g className={'d3line_dataset d3line_dataset_test'}>
-        { dataSet.map(data => (
+        { dataset.map((set, idx) => (
           <Path
-            d={shaper(data.values.toJS())}
-            key={`dataset_${data.id}`}
-            mouseOut={mouseOut ? () => mouseOut(canvas, idx, data.id) : null}
-            mouseOver={mouseOver ? () => mouseOver(canvas, idx, data.id) : null}
-            name={data.id}
-            selected={selected === data.id}
-            shape={view.shape}
+            d={this.getShaper()(set.data)}
+            key={`dataset_${set.id}`}
+            mouseOut={mouseOut ? () => mouseOut(canvas, chartId, set.id) : null}
+            mouseOver={mouseOver ? () => mouseOver(canvas, chartId, set.id) : null}
+            name={set.id}
+            selected={selected === set.id}
+            shape={shape}
             styles={styles}
-            view={view.probes.get(data.id)}
+            view={probes.get(idx)}
           />
         ))
         }
       </g>);
   }
 }
-LineChart.defaultProps = {
+Dataset.defaultProps = {
   selected: null,
   mouseOver: null,
   mouseOut: null,
 };
-LineChart.propTypes = {
+Dataset.propTypes = {
   canvas: PropTypes.string.isRequired,
-  data: ImmutablePropTypes.list.isRequired,
-  idx: PropTypes.number.isRequired,
+  chartId: PropTypes.string.isRequired,
+  dataset: ImmutablePropTypes.list.isRequired,
   mouseOut: PropTypes.func,
   mouseOver: PropTypes.func,
   scaleX: PropTypes.func.isRequired,
@@ -70,4 +68,4 @@ LineChart.propTypes = {
   view: PropTypes.instanceOf(ChartView).isRequired,
 };
 
-export default LineChart;
+export default Dataset;
