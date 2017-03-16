@@ -35,12 +35,15 @@ const stackPrevious = (pair, idx, row, stack) => {
   }
   return pair;
 };
-const stackSelector = (inputData, idx, stack) => AorB(stack, inputData);
-const stackMapper = (inputData, idx, stack) => inputData.update(idx, iData => iData
-      .update('data', values => values.map((pair, row) => stackPrevious(pair, idx, row, stack))));
-export const stack = data => pureTransformer(data, null, 0, stackMapper, stackSelector);
+const stackMapper = (inputData, idx, stack) => inputData
+  .update(idx, iData => iData
+      .update('data', values => values
+        .map((pair, row) => stackPrevious(pair, idx, row, stack))));
 
-export const moduleMapper = rrdData => (chart, idx, output) => {
+const stackSelector = (inputData, idx, stack) => stack;
+export const stack = data => pureTransformer(data, data, stackMapper, stackSelector);
+
+export const toChartMapper = rrdData => (chart, idx, output) => {
   const rrdModule = rrdData.get(chart.module, null);
 
   if (rrdModule === null) {
@@ -66,4 +69,4 @@ export const moduleMapper = rrdData => (chart, idx, output) => {
       .set('min', absoluteMin));
 };
 
-export const toChartRecord = (charts, rrdData) => listTransformer(charts, moduleMapper(rrdData));
+export const toChartRecord = (charts, rrdData) => listTransformer(charts, toChartMapper(rrdData));
