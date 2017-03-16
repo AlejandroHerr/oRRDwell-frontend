@@ -4,18 +4,14 @@ import { identityFn as absolute } from './helpers';
 /**
  * Common formatters for every kind of data.
  */
-
-const bytes = (value) => {
-  const fmt = format(',.1f');
-  if (value < 1024) {
-    return `${fmt(value)}kB`;
+const units = ['B', 'kB', 'MB', 'GB', 'TB'];
+const bytes = (value, fmt = ',.1f', idx = 0) => {
+  if (value > 1024) {
+    return bytes(value / 1024, fmt, idx + 1);
   }
-  if (value < 1024 * 1024) {
-    return `${fmt(value / 1024)}MB`;
-  }
-
-  return `${fmt(value / 1024 / 1024)}GB`;
+  return format(fmt)(value) + units[idx];
 };
+const kiloBytes = (value, fmt) => bytes(value, fmt, 1);
 
 const degrees = value => `${format(',.1f')(value)}ºC`;
 
@@ -24,4 +20,4 @@ const load = value => `${format(',.2f')(value)}`;
 
 const time = timeFormat('%H:%M');
 
-export default { absolute, bytes, degrees, load, percentage, time };
+export default { absolute, bytes, kiloBytes, degrees, load, percentage, time };
