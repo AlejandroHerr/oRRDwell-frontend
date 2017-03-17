@@ -7,6 +7,7 @@ import Path from './Path';
 class Dataset extends React.PureComponent {
   getShaper() {
     const { scaleX, scaleY, view: { shape } } = this.props;
+
     return shape === 'line' ?
       line().x(v => scaleX(1000 * v[0]))
         .y(v => scaleY(v[1]))
