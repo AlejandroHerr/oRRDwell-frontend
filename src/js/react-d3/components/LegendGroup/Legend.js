@@ -1,15 +1,14 @@
 import React, { PropTypes, PureComponent } from 'react';
 import format from '../../format';
 import { ChartRecord, ChartView } from '../../models';
-import { selectAverage, selectMaxs, selectMins } from '../../reducers';
 import LegendRow from './LegendRow';
 
 class Legend extends PureComponent {
   render() {
-    const { canvas, chart, chartView, idx, mouseOut, mouseOver, styles } = this.props;
+    const { canvas, chart, chartView, mouseOut, mouseOver, styles } = this.props;
 
     const fmt = format[chartView.axisY.unit];
-    console.log(chart, chartView);
+
     return (
       <div>
         {chart.dataset.map((dataSource, key) => (
@@ -36,7 +35,6 @@ Legend.propTypes = {
   canvas: PropTypes.string.isRequired,
   chart: PropTypes.instanceOf(ChartRecord).isRequired,
   chartView: PropTypes.instanceOf(ChartView).isRequired,
-  idx: PropTypes.number.isRequired,
   mouseOut: PropTypes.func,
   mouseOver: PropTypes.func,
   styles: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
