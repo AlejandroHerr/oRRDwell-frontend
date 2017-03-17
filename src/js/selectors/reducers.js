@@ -1,27 +1,35 @@
 import { AorB, pureTransformer, listTransformer } from '../utils';
 import { DataRecord, ChartRecord } from '../react-d3/models';
 
+const calcMax = data => data.reduce(
+  (r, v) => (v[1] && v[1] > r[1] ? v : r),
+  [0, 0]);
+const calcMin = data => data.reduce(
+  (r, v) => (((v[1] || v[1] === 0) && v[1] < r[1]) ? v : r),
+  [0, Number.MAX_SAFE_INTEGER]);
+const calcAvg = (data) => {
+  const [n, total] = data.reduce(
+    (r, v) => (v[1] ? [r[0] + 1, r[1] + v[1]] : r),
+    [0, 0]);
+
+  return n === 0 ? 0 : total / n;
+};
+
 export const toDataRecord = rrdModule => (probe, idx, output) => {
   const rrdDataSource = rrdModule.dataSources.get(probe.id, null);
 
   if (rrdDataSource === null) {
     return output;
   }
-  const avg = rrdDataSource.data.reduce(
-    (r, row) => (row[1] ? [r[0] + 1, r[1] + row[1]] : r),
-    [0, 0]);
-  const max = rrdDataSource.data.reduce((r, row) => (row[1] && row[1] > r[1] ? row : r), [0, 0]);
-  const min = rrdDataSource.data.reduce(
-    (r, row) => (row[1] && row[1] < r[1] ? row : r),
-    [0, Number.MAX_SAFE_INTEGER]);
 
   return output
     .push(new DataRecord()
       .set('id', rrdDataSource.dsName)
       .set('data', rrdDataSource.data)
-      .set('avg', avg[1] / avg[0])
-      .set('max', max)
-      .set('min', min));
+      .set('avg', calcAvg(rrdDataSource.data))
+      .set('max', calcMax(rrdDataSource.data))
+      .set('min', calcMin(rrdDataSource.data)),
+    );
 };
 
 const stackPrevious = (pair, idx, row, stack) => {
@@ -53,13 +61,13 @@ export const toChartMapper = rrdData => (chart, idx, output) => {
   const dataset = listTransformer(chart.probes, toDataRecord(rrdModule));
 
   const absoluteMax = dataset.reduce((r, { max }) =>
-    (max[1] && max[1] > r.rel ?
+    (max[1] > r.rel ?
       { rel: max[1], abs: r.abs + max[1] } :
-      { rel: r.rel, abs: r.abs + (max[1] || 0) }),
+      { rel: r.rel, abs: r.abs + max[1] }),
     { abs: 0, rel: 0 });
+
   const absoluteMin = dataset.reduce(
-    (r, { min }) => (min[1] && min[1] < r ? min[1] : r),
-    Number.MAX_SAFE_INTEGER);
+    (r, { min }) => (min[1] && min[1] < r[1] ? min : r), dataset.get(0).min)[1];
 
   return output
     .push(new ChartRecord(rrdModule)
